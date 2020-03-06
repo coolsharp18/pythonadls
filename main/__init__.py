@@ -11,8 +11,8 @@ app = Flask(__name__, instance_relative_config=True)
 
 app.config.from_object('config.default')
 
-account_name = "accountname"
-credential = "accountkey"
+account_name = os.getenv("accountname")
+credential = os.getenv("accountkey")
 account_url = "https://{}.dfs.core.windows.net/".format(account_name)
 
 @app.route('/')
@@ -26,7 +26,7 @@ def say_hello():
     datalake = DataLakeServiceClient(
         account_url=account_url, credential=credential)
 
-    file_system = "coolsharp18cont"
+    file_system = os.getenv("filesystem")
     filesystem_client = datalake.get_file_system_client(file_system)
 
     # try:
