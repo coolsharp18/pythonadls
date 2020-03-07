@@ -60,7 +60,7 @@ def say_hello():
 
     dir_client = filesystem_client.get_directory_client("outgoing")
     dir_client.create_directory()
-    file_client = dir_client.create_file("cities.json")
+    file_client = dir_client.create_file("account.json")
     file_client.append_data(jsondata, 0, len(jsondata))
     file_client.flush_data(len(jsondata))
     return jsondata
