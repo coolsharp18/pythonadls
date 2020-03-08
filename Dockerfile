@@ -6,6 +6,9 @@ ENV accountname=NONE
 ENV accountkey=NONE
 ENV filesystem=NONE
 
+ENV LISTEN_PORT=5001
+EXPOSE 5001
+
 RUN pip install --upgrade pip
 
 
