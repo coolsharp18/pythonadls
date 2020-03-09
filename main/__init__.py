@@ -4,7 +4,6 @@ import pandas as pd
 from io import StringIO
 from flask import Flask, request
 from azure.storage.filedatalake import DataLakeServiceClient
-from azure.core.exceptions import ResourceExistsError
 
 
 app = Flask(__name__, instance_relative_config=True)
@@ -20,33 +19,16 @@ def index():
     return 'Server Works!'
 
 
-@app.route('/accountBalance')
-def say_hello():
+@app.route('/<model>/<inout>/<location>/<entity>/<year>/<month>/<day>')
+def say_hello(model, inout, location, entity, year, month, day):
 
     datalake = DataLakeServiceClient(
         account_url=account_url, credential=credential)
 
     file_system = os.getenv("filesystem")
     filesystem_client = datalake.get_file_system_client(file_system)
-
-    # try:
-    #     filesystem_client = datalake.create_file_system(file_system=file_system)
-    # except ResourceExistsError as e:
-    #     filesystem_client = datalake.get_file_system_client(file_system)
-
-    # dir_client = filesystem_client.get_directory_client("incoming")
-    # dir_client.create_directory()
-    #
-    # data = """name,population
-    # Berlin, 3406000
-    # Munich, 1275000
-    # """
-    #
-    # file_client = dir_client.create_file("cities.csv")
-    # file_client.append_data(data, 0, len(data))
-    # file_client.flush_data(len(data))
-
-    file_client = filesystem_client.get_file_client('input/account.csv')
+    filepath = '/{}/{}/{}/{}/{}/{}/'.format(model, inout, location, entity, year, month, day)
+    file_client = filesystem_client.get_file_client(filepath + 'data.csv')
     text = file_client.read_file()
     s = str(text, 'utf-8')
 
@@ -60,7 +42,7 @@ def say_hello():
 
     dir_client = filesystem_client.get_directory_client("outgoing")
     dir_client.create_directory()
-    file_client = dir_client.create_file("account.json")
+    file_client = dir_client.create_file("data.csv")
     file_client.append_data(jsondata, 0, len(jsondata))
     file_client.flush_data(len(jsondata))
     return jsondata
