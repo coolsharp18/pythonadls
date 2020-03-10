@@ -15,6 +15,7 @@ RUN pip install --upgrade pip
 
 # Copy the application files
 COPY ./requirements.txt /usr/src/app/
+COPY ./run.py /usr/src/app/
 
 # Set the working directory to where the application files are
 WORKDIR /usr/src/app
