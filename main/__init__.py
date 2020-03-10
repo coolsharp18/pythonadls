@@ -27,7 +27,7 @@ def say_hello(model, inout, location, entity, year, month, day):
 
     file_system = os.getenv("filesystem")
     filesystem_client = datalake.get_file_system_client(file_system)
-    filepath = '/{}/{}/{}/{}/{}/{}/'.format(model, inout, location, entity, year, month, day)
+    filepath = '/{}/{}/{}/{}/{}/{}/{}/'.format(model, inout, location, entity, year, month, day)
     file_client = filesystem_client.get_file_client(filepath + 'data.csv')
     text = file_client.read_file()
     s = str(text, 'utf-8')
